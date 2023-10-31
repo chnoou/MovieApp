@@ -69,7 +69,10 @@ class MovieRepository(context: Context) {
         try {
             val parsedResponse = gson.fromJson(response, TopRatedResponse::class.java)
             if (parsedResponse.results.isNotEmpty()) {
-                _movies.value.addAll(parsedResponse.results)
+                val newSet = mutableSetOf<Movie>()
+                newSet.addAll(_movies.value)
+                newSet.addAll(parsedResponse.results)
+                _movies.value = newSet
                 Log.d(TAG, "Added ${parsedResponse.results.size} movies")
                 Log.d(TAG, "Movies are now ${_movies.value.map { it.title }}")
             }

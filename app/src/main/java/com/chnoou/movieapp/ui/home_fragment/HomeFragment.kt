@@ -1,11 +1,16 @@
 package com.chnoou.movieapp.ui.home_fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.chnoou.movieapp.backend.data.Movie
 import com.chnoou.movieapp.databinding.HomeFragmentBinding
+import com.chnoou.movieapp.ui.home_fragment.movie_recycler.MovieAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -33,11 +38,31 @@ class HomeFragment : Fragment() {
             viewModel.fetchMovies()
         }
 
+        initRecycler()
 
 
 
 
 
+    }
+
+    private fun initRecycler() {
+        binding.moviesRecycler.apply {
+            adapter = MovieAdapter(arrayListOf()).apply {
+                onClick = {
+                    clickedMovie(it)
+                }
+            }
+            layoutManager = GridLayoutManager(requireContext(), 2)
+        }
+
+        viewModel.movies.observe(viewLifecycleOwner) {
+            Log.d(this@HomeFragment::class.java.simpleName, "Updated movies to view")
+            (binding.moviesRecycler.adapter as MovieAdapter).submitList(it.toList())
+        }
+    }
+
+    private fun clickedMovie(movie: Movie) {
 
     }
 
