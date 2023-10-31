@@ -5,7 +5,9 @@ import com.chnoou.movieapp.backend.MovieRepository
 
 class HomeViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
-
+    fun fetchMovies() {
+        movieRepository.fetchMovies()
+    }
 
 
 

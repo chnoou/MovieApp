@@ -6,8 +6,9 @@
     tools:context=".ui.detailed_movie_fragment.DetailedMovieFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="detailed movie fragment"
+        android:layout_gravity="center"/>
 
 </FrameLayout>
