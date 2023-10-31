@@ -15,4 +15,8 @@ data class Movie(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+) {
+    companion object {
+        const val ID_KEY = "MovieIdKey"
+    }
+}

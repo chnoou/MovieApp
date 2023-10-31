@@ -44,7 +44,7 @@ class MovieRepository(context: Context) {
         )
     }
 
-    private suspend fun fetchMovieDetails(id: Int): MovieDetails? {
+    suspend fun fetchMovieDetails(id: Int): MovieDetails? {
         val url = "${MovieAPI.BASE_MOVIE_URL}$id?${MovieAPI.LANGUAGE}"
         return suspendCancellableCoroutine { continuation ->
             MovieAPI.callWithUrl(
