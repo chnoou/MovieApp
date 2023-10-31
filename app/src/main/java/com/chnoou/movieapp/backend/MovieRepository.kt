@@ -2,22 +2,16 @@ package com.chnoou.movieapp.backend
 
 import android.content.Context
 import android.util.Log
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.chnoou.movieapp.R
 import com.chnoou.movieapp.backend.data.Movie
+import com.chnoou.movieapp.backend.data.MovieDetails
 import com.chnoou.movieapp.backend.data.TopRatedResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.koinApplication
-import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 const val AUTHORIZATION_HEADER = "Authorization"
 const val ACCEPT_HEADER = "accept"
@@ -36,36 +30,39 @@ class MovieRepository(context: Context) {
     private val gson = Gson()
 
     fun fetchMovies(page: Int = 1) {
-        val request = object: StringRequest(
-            Method.GET,
-            "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=$page",
-            Response.Listener {
-                handleResponse(it)
+        // TODO: Make below nicer, needs some kind of builder function
+        val url = "${MovieAPI.BASE_MOVIE_URL}?${MovieAPI.LANGUAGE}&page=$page"
+        MovieAPI.callWithUrl(
+            requestQueue,
+            url,
+            onSuccess = {
+                handleMoviesResponse(it)
             },
-            Response.ErrorListener {
+            onError = {
                 handleError(it)
             }
-        ) {
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                headers[AUTHORIZATION_HEADER] = "Bearer $API_TOKEN"
-                headers[ACCEPT_HEADER] = APPLICATION_JSON
-                Log.d(TAG, "headers: $headers")
-                return headers
-            }
-        }
-
-        request.retryPolicy =
-            DefaultRetryPolicy(
-                5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-
-        requestQueue.add(request)
+        )
     }
 
-    private fun handleResponse(response: String) {
+    private suspend fun fetchMovieDetails(id: Int): MovieDetails? {
+        val url = "${MovieAPI.BASE_MOVIE_URL}$id?${MovieAPI.LANGUAGE}"
+        return suspendCancellableCoroutine { continuation ->
+            MovieAPI.callWithUrl(
+                requestQueue,
+                url,
+                onSuccess = {
+                    val movie = parseMovieDetails(it)
+                    continuation.resume(movie)
+                },
+                onError = {
+                    handleError(it)
+                    continuation.resume(null)
+                }
+            )
+        }
+    }
+
+    private fun handleMoviesResponse(response: String) {
         try {
             val parsedResponse = gson.fromJson(response, TopRatedResponse::class.java)
             if (parsedResponse.results.isNotEmpty()) {
@@ -81,8 +78,22 @@ class MovieRepository(context: Context) {
         }
     }
 
+    private fun parseMovieDetails(json: String): MovieDetails? {
+        return try {
+            val movie = gson.fromJson(json, MovieDetails::class.java)
+            movie
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to parse movie details due to: ${e.message}")
+            null
+        }
+    }
+
+
+
     private fun handleError(error: VolleyError) {
 
     }
+
+    fun getMovie(id: Int): Movie? = _movies.value.firstOrNull { it.id == id }
 
 }
