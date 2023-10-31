@@ -37,9 +37,7 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        binding.testBtn.setOnClickListener {
-            viewModel.fetchMovies()
-        }
+        viewModel.fetchMovies()
 
         initRecycler()
 

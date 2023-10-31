@@ -1,5 +1,7 @@
 package com.chnoou.movieapp.backend.data
 
+import com.chnoou.movieapp.backend.MovieAPI
+
 data class Movie(
     val adult: Boolean,
     val backdrop_path: String,
@@ -19,4 +21,8 @@ data class Movie(
     companion object {
         const val ID_KEY = "MovieIdKey"
     }
+
+    fun getRatingPercentage(): Float = (vote_average / 2).toFloat()
+
+    fun getImageUrl(): String = "${MovieAPI.BASE_MOVIE_IMAGE_URL}$poster_path"
 }

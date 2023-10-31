@@ -26,4 +26,28 @@ data class MovieDetails(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+) {
+    fun printInfo(): String = "$release_date   |   ${genres.joinToString(" ") { it.name }}   |   ${printRuntime()}"
+
+    fun printLanguages(): String = spoken_languages.joinToString("\n") { it.english_name }
+
+    fun printProductionCompanies(): String = production_companies.joinToString("\n") { it.name }
+
+    fun printProductionCountries(): String = production_countries.joinToString("\n") { it.name }
+
+    fun printRuntime(): String {
+        val hrs = runtime / 60
+        val minutes = runtime % 60
+        var string = ""
+        if (hrs > 0) {
+            string += "${hrs}h"
+            if (minutes > 0) {
+                string += " "
+            }
+        }
+        if (minutes > 0) {
+            string += "${minutes}m"
+        }
+        return string
+    }
+}

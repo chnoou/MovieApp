@@ -1,14 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.detailed_movie_fragment.DetailedMovieFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="detailed movie fragment"
-        android:layout_gravity="center"/>
+    <ImageView
+        android:id="@+id/movieImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="2:3"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-</FrameLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="400dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="40dp"
+                android:paddingHorizontal="8dp"
+                android:background="@drawable/vibrant_gradient">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:textSize="32sp"
+                    android:fontFamily="sans-serif-black"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/title"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/offWhite"
+                    android:textAlignment="center"
+                    android:text=""/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="120dp"
+                android:background="@color/vibrantBg">
+
+                <RatingBar
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="64dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:scaleX=".5"
+                    android:scaleY=".5"
+                    android:numStars="5"
+                    android:stepSize=".05"
+                    android:progressTint="@color/active"
+                    android:secondaryProgressTint="@color/inactive"
+                    android:progressBackgroundTint="@color/inactive"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/descriptionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Overview"
+                    android:textColor="@color/white"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/rating"/>
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/offWhite"
+                    app:layout_constraintTop_toBottomOf="@id/descriptionHeader"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/languagesHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Languages Spoken"
+                    android:textColor="@color/white"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/description"
+                    android:layout_marginTop="24dp" />
+
+                <TextView
+                    android:id="@+id/languages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/offWhite"
+                    app:layout_constraintTop_toBottomOf="@id/languagesHeader"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/producationHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Production Countries"
+                    android:textColor="@color/white"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/languages"
+                    android:layout_marginTop="24dp" />
+
+                <TextView
+                    android:id="@+id/production"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/offWhite"
+                    app:layout_constraintTop_toBottomOf="@id/producationHeader"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/companiesHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Production Companies"
+                    android:textColor="@color/white"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/production"
+                    android:layout_marginTop="24dp" />
+
+                <TextView
+                    android:id="@+id/companies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/offWhite"
+                    app:layout_constraintTop_toBottomOf="@id/companiesHeader"
+                    android:text=""/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,4 @@ class HomeViewModel(private val movieRepository: MovieRepository) : ViewModel() 
         movieRepository.fetchMovies()
     }
 
-
-
-
 }

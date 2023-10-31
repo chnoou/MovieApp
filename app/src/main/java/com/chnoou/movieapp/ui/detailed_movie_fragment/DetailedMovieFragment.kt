@@ -1,6 +1,5 @@
 package com.chnoou.movieapp.ui.detailed_movie_fragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.chnoou.movieapp.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chnoou.movieapp.backend.data.Movie
 import com.chnoou.movieapp.backend.data.MovieDetails
 import com.chnoou.movieapp.databinding.DetailedMovieFragmentBinding
@@ -63,11 +63,20 @@ class DetailedMovieFragment : Fragment() {
     }
 
     fun updateMovie(movie: Movie) {
-
+        binding.title.text = movie.title
+        binding.rating.rating = movie.getRatingPercentage()
+        Glide.with(binding.movieImage)
+            .load(movie.getImageUrl())
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(binding.movieImage)
     }
 
     fun updateMovieDetails(movieDetails: MovieDetails) {
-
+        binding.info.text = movieDetails.printInfo()
+        binding.description.text = movieDetails.overview
+        binding.languages.text = movieDetails.printLanguages()
+        binding.production.text = movieDetails.printProductionCountries()
+        binding.companies.text = movieDetails.printProductionCompanies()
     }
 
     override fun onDestroy() {

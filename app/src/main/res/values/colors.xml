@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="offWhite">#98A5AE</color>
+    <color name="bg">#08090A</color>
+    <color name="vibrantBg">#242A2E</color>
+
+    <color name="inactive">#48535B</color>
+    <color name="active">#F9CE4E</color>
+    <color name="licorice">#211103</color>
+
+
+
 </resources>

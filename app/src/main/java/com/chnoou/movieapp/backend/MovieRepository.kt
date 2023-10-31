@@ -31,7 +31,7 @@ class MovieRepository(context: Context) {
 
     fun fetchMovies(page: Int = 1) {
         // TODO: Make below nicer, needs some kind of builder function
-        val url = "${MovieAPI.BASE_MOVIE_URL}?${MovieAPI.LANGUAGE}&page=$page"
+        val url = "${MovieAPI.BASE_MOVIE_URL}${MovieAPI.TOP_RATED}?${MovieAPI.LANGUAGE}&page=$page"
         MovieAPI.callWithUrl(
             requestQueue,
             url,
