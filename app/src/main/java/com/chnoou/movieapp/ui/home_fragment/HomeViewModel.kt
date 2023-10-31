@@ -1,7 +1,13 @@
 package com.chnoou.movieapp.ui.home_fragment
 
 import androidx.lifecycle.ViewModel
+import com.chnoou.movieapp.backend.MovieRepository
 
-class HomeViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class HomeViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+
+
+
+
+
+
 }

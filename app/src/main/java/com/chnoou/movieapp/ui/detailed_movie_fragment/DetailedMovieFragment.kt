@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chnoou.movieapp.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailedMovieFragment : Fragment() {
 
@@ -14,7 +15,7 @@ class DetailedMovieFragment : Fragment() {
         fun newInstance() = DetailedMovieFragment()
     }
 
-    private lateinit var viewModel: DetailedMovieViewModel
+    private val viewModel: DetailedMovieViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +26,7 @@ class DetailedMovieFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetailedMovieViewModel::class.java)
+
 
 
 
