@@ -27,7 +27,7 @@ data class MovieDetails(
     val vote_average: Double,
     val vote_count: Int
 ) {
-    fun printInfo(): String = "$release_date   |   ${genres.joinToString(" ") { it.name }}   |   ${printRuntime()}"
+    fun printInfo(): String = "$release_date   |   ${genres.joinToString(", ") { it.name }}   |   ${printRuntime()}"
 
     fun printLanguages(): String = spoken_languages.joinToString("\n") { it.english_name }
 

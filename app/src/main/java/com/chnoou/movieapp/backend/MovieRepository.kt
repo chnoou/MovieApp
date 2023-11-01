@@ -30,7 +30,7 @@ class MovieRepository(private val context: Context) {
 
     fun fetchMovies(page: Int = 1) {
         _fetchingMovies.value = true
-        val url = "${MovieAPI.TOP_RATED}?${MovieAPI.LANGUAGE}&page=$page"
+        val url = "${MovieAPI.POPULAR}?${MovieAPI.LANGUAGE}&page=$page"
         MovieAPI.callWithUrl(
             requestQueue,
             url,
