@@ -44,7 +44,6 @@ class MovieRepository(private val context: Context) {
     }
 
     suspend fun fetchMovieDetails(id: Int): MovieDetails? {
-        _fetchingMovies.value = false
         val url = "${MovieAPI.BASE_MOVIE_URL}$id?${MovieAPI.LANGUAGE}"
         return suspendCancellableCoroutine { continuation ->
             MovieAPI.callWithUrl(
@@ -73,8 +72,10 @@ class MovieRepository(private val context: Context) {
                 Log.d(TAG, "Added ${parsedResponse.results.size} movies")
                 Log.d(TAG, "Movies are now ${_movies.value.map { it.title }}")
             }
+            _fetchingMovies.value = false
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse result due to: ${e.message}")
+            _fetchingMovies.value = false
         }
     }
 
