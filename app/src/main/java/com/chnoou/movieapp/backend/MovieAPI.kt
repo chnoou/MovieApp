@@ -16,8 +16,9 @@ object MovieAPI {
     // Exposed
     const val BASE_MOVIE_IMAGE_URL = "https://image.tmdb.org/t/p/original"
     const val BASE_MOVIE_URL = "https://api.themoviedb.org/3/movie/"
-    const val TOP_RATED = "top_rated"
-    const val POPULAR = "popular"
+
+    const val TOP_RATED = "${BASE_MOVIE_URL}top_rated"
+    const val POPULAR = "${BASE_MOVIE_URL}popular"
     const val LANGUAGE = "language=en-US"
 
     fun callWithUrl(queue: RequestQueue,url: String, onSuccess: (String) -> Unit, onError: (VolleyError) -> Unit) {

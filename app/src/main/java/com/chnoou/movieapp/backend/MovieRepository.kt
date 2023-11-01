@@ -14,11 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-const val AUTHORIZATION_HEADER = "Authorization"
-const val ACCEPT_HEADER = "accept"
-const val APPLICATION_JSON = "application/json"
-const val API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZjUzM2YwOGI2NGNhMTc4YjM2OWM2NjY3Mzg5YTZjZCIsInN1YiI6IjY1NDExMTE4NTc1MzBlMDEyY2Y0YzYyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fUvZKcoQ9whkL4eafl12VPSAzORFjO-yFDI-ew4DWx4"
-
 class MovieRepository(private val context: Context) {
 
     private val TAG = this::class.java.simpleName
@@ -35,8 +30,7 @@ class MovieRepository(private val context: Context) {
 
     fun fetchMovies(page: Int = 1) {
         _fetchingMovies.value = true
-        // TODO: Make below nicer, needs some kind of builder function
-        val url = "${MovieAPI.BASE_MOVIE_URL}${MovieAPI.TOP_RATED}?${MovieAPI.LANGUAGE}&page=$page"
+        val url = "${MovieAPI.TOP_RATED}?${MovieAPI.LANGUAGE}&page=$page"
         MovieAPI.callWithUrl(
             requestQueue,
             url,
