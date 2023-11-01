@@ -40,7 +40,21 @@ class HomeFragment : Fragment() {
         viewModel.fetchMovies()
 
         initRecycler()
+        initSwipeRefresh()
 
+    }
+
+    private fun initSwipeRefresh() {
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.fetchMovies()
+        }
+        viewModel.fetchingMovies.observe(viewLifecycleOwner) {
+            if (binding.swipeRefresh.isRefreshing && !it) {
+                binding.swipeRefresh.isRefreshing = false
+            } else if (!binding.swipeRefresh.isRefreshing && it) {
+                binding.swipeRefresh.isRefreshing = true
+            }
+        }
     }
 
     private fun initRecycler() {

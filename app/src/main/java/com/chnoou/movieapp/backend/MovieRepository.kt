@@ -2,6 +2,7 @@ package com.chnoou.movieapp.backend
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
 import com.chnoou.movieapp.backend.data.Movie
@@ -18,18 +19,22 @@ const val ACCEPT_HEADER = "accept"
 const val APPLICATION_JSON = "application/json"
 const val API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZjUzM2YwOGI2NGNhMTc4YjM2OWM2NjY3Mzg5YTZjZCIsInN1YiI6IjY1NDExMTE4NTc1MzBlMDEyY2Y0YzYyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fUvZKcoQ9whkL4eafl12VPSAzORFjO-yFDI-ew4DWx4"
 
-class MovieRepository(context: Context) {
+class MovieRepository(private val context: Context) {
 
     private val TAG = this::class.java.simpleName
 
     private val _movies: MutableStateFlow<MutableSet<Movie>> = MutableStateFlow(mutableSetOf())
     val movies: StateFlow<MutableSet<Movie>> = _movies
 
+    private val _fetchingMovies: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val fetchingMovies: StateFlow<Boolean> = _fetchingMovies
+
     private val requestQueue = Volley.newRequestQueue(context)
 
     private val gson = Gson()
 
     fun fetchMovies(page: Int = 1) {
+        _fetchingMovies.value = true
         // TODO: Make below nicer, needs some kind of builder function
         val url = "${MovieAPI.BASE_MOVIE_URL}${MovieAPI.TOP_RATED}?${MovieAPI.LANGUAGE}&page=$page"
         MovieAPI.callWithUrl(
@@ -45,6 +50,7 @@ class MovieRepository(context: Context) {
     }
 
     suspend fun fetchMovieDetails(id: Int): MovieDetails? {
+        _fetchingMovies.value = false
         val url = "${MovieAPI.BASE_MOVIE_URL}$id?${MovieAPI.LANGUAGE}"
         return suspendCancellableCoroutine { continuation ->
             MovieAPI.callWithUrl(
@@ -91,7 +97,8 @@ class MovieRepository(context: Context) {
 
 
     private fun handleError(error: VolleyError) {
-
+        _fetchingMovies.value = false
+        Toast.makeText(context, "Something went wrong: ${error.message}", Toast.LENGTH_LONG).show()
     }
 
     fun getMovie(id: Int): Movie? = _movies.value.firstOrNull { it.id == id }
